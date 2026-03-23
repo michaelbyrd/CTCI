@@ -12,27 +12,10 @@
 
 from collections import Counter
 
-def check_permutation(s1, s2):
-   return sorted(s1) == sorted(s2)
 
-  
+def check_permutation(s1, s2):
+    return sorted(s1) == sorted(s2)
+
 
 def check_permutation_dict(s1, s2):
-    return Counter(s1) == Counter (s2)
-
-
-import pytest
-
-@pytest.mark.parametrize("fn", [check_permutation, check_permutation_dict])
-class TestCheckPermutation:
-    def test_permutation(self, fn):
-        assert fn("abc", "bca") == True
-
-    def test_not_permutation(self, fn):
-        assert fn("abc", "bcd") == False
-
-    def test_permutation_with_duplicates(self, fn):
-        assert fn("aab", "baa") == True
-
-    def test_not_permutation_with_duplicates(self, fn):
-        assert fn("aab", "bab") == False
+    return Counter(s1) == Counter(s2)

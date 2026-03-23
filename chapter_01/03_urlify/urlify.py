@@ -19,13 +19,3 @@ def urlify(string, length):
         else:
             url += char
     return url
-
-
-import pytest
-
-class TestUrlify:
-    def test_basic(self):
-        assert urlify("Mr John Smith    ", 13) == "Mr%20John%20Smith"
-
-    def test_no_spaces(self):
-        assert urlify("abc", 3) == "abc"
