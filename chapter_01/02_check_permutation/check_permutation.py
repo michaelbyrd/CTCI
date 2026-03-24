@@ -13,9 +13,11 @@
 from collections import Counter
 
 
+# Time: O(n log n), Space: O(n) — sorting requires O(n log n) and creates new sorted lists
 def check_permutation(s1, s2):
     return sorted(s1) == sorted(s2)
 
 
+# Time: O(n), Space: O(n) — Counter builds frequency dicts in linear time
 def check_permutation_dict(s1, s2):
     return Counter(s1) == Counter(s2)

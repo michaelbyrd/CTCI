@@ -6,6 +6,7 @@
 
 
 # Simple solution using set
+# Time: O(n), Space: O(n) — builds a set of all characters
 def is_unique(string):
     return len(string) == len(set(string))
 
@@ -16,6 +17,7 @@ def is_unique(string):
 # is already set. If so, duplicate found. Otherwise it sets the bit and moves
 # on. The integer never grows beyond 128 bits regardless of input length.
 
+# Time: O(n), Space: O(1) — uses a single integer as a bit vector
 def is_unique_bitmask(string):
     checker = 0
     for char in string:

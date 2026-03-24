@@ -7,21 +7,12 @@ from palindrome_permutation import palindrome_permutation, palindrome_permutatio
     palindrome_permutation_counter,
     palindrome_permutation_set,
 ])
-class TestPalindromePermutation:
-    def test_permutation_of_palindrome(self, fn):
-        assert fn("Tact Coa") == True
-
-    def test_not_permutation_of_palindrome(self, fn):
-        assert fn("hello") == False
-
-    def test_already_a_palindrome(self, fn):
-        assert fn("racecar") == True
+class TestShortInput:  # length 0-99
+    def test_empty_string(self, fn):
+        assert fn("") == True
 
     def test_single_character(self, fn):
         assert fn("a") == True
-
-    def test_empty_string(self, fn):
-        assert fn("") == True
 
     def test_two_different_chars(self, fn):
         assert fn("ab") == False
@@ -31,6 +22,15 @@ class TestPalindromePermutation:
 
     def test_spaces_ignored(self, fn):
         assert fn("a b a") == True
+
+    def test_already_a_palindrome(self, fn):
+        assert fn("racecar") == True
+
+    def test_permutation_of_palindrome(self, fn):
+        assert fn("Tact Coa") == True
+
+    def test_not_permutation_of_palindrome(self, fn):
+        assert fn("hello") == False
 
     def test_length_25_true(self, fn):
         assert fn("aabbccddeeaabbccddeeaabba") == True
@@ -44,6 +44,13 @@ class TestPalindromePermutation:
     def test_length_50_false(self, fn):
         assert fn("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx") == False
 
+
+@pytest.mark.parametrize("fn", [
+    palindrome_permutation,
+    palindrome_permutation_counter,
+    palindrome_permutation_set,
+])
+class TestMediumInput:  # length 100-999
     def test_length_100_true(self, fn):
         assert fn("aabbccddeeaabbccddeeaabbccddeeaabbccddeeaabbccddeeaabbccddeeaabbccddeeaabbccddeeaabbccddeeaabbccddee") == True
 
@@ -56,17 +63,61 @@ class TestPalindromePermutation:
     def test_length_200_false(self, fn):
         assert fn("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs") == False
 
+    def test_length_500_true(self, fn):
+        assert fn("ab" * 250) == True
 
-# Benchmark results (100,000 runs over 8 short test cases):
-# palindrome_permutation         (dict)     0.49s  (0.0049ms per run)
-# palindrome_permutation_counter (Counter)  0.78s  (0.0078ms per run)
-# palindrome_permutation_set     (set)      0.25s  (0.0024ms per run)
+    def test_length_500_false(self, fn):
+        assert fn("abc" * 167) == False  # a=167, b=167, c=167 — all odd counts
+
+    def test_length_999_true(self, fn):
+        assert fn("ab" * 499 + "a") == True
+
+    def test_length_999_false(self, fn):
+        assert fn("abc" * 333) == False  # a=333, b=333, c=333 — all odd counts
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("fn", [
+    palindrome_permutation,
+    palindrome_permutation_counter,
+    palindrome_permutation_set,
+])
+class TestLongInput:  # length 1000+
+    def test_length_1000_true(self, fn):
+        assert fn("ab" * 500) == True
+
+    def test_length_1000_false(self, fn):
+        assert fn("abcdefghijklmnopqrstuvwxy" * 40) == False
+
+    def test_length_10000_true(self, fn):
+        assert fn("ab" * 5000) == True
+
+    def test_length_10000_false(self, fn):
+        assert fn("abcdefghijklmnopqrstuvwxy" * 400) == False
+
+    def test_length_50000_true(self, fn):
+        assert fn("ab" * 25000) == True
+
+    def test_length_50000_false(self, fn):
+        assert fn("abcdefghijklmnopqrstuvwxy" * 2000) == False
+
+
+# Benchmark results (per-run averages):
 #
-# Benchmark results (100,000 runs over 16 test cases including lengths 25, 50, 100, 200):
-# palindrome_permutation         (dict)     4.90s  (0.0490ms per run)
-# palindrome_permutation_counter (Counter)  3.58s  (0.0358ms per run)  <- faster at scale
-# palindrome_permutation_set     (set)      3.46s  (0.0346ms per run)  <- still fastest
-
-# Set is still fastest, but now only barely ahead of Counter
-# Counter overtook the dict solution at scale — its C-optimized internals kick in on longer strings
-# Dict fell to last place — the manual Python loop doesn't scale as well as Counter's native implementation
+#                    dict        counter     set
+# short  (0-99)    0.0167ms    0.0176ms    0.0097ms  <- set wins
+# medium (100-999) 0.1675ms    0.0832ms    0.1485ms  <- counter wins
+# long   (1000+)   6.1972ms    3.1345ms    4.6202ms  <- counter wins
+#
+# Set fastest for short inputs (single pass, no counting overhead)
+# Counter wins at medium/long — C-optimized internals outperform manual loops
+#
+# Complexity:
+#
+#     | version                       | time  | space |
+#     |-------------------------------|-------|-------|
+#     | palindrome_permutation (dict) | O(n)  | O(k)  |
+#     | palindrome_permutation_counter| O(n)  | O(k)  |
+#     | palindrome_permutation_set    | O(n)  | O(k)  |
+#
+#     k = number of unique characters (bounded by charset size, e.g. 26 for lowercase alpha)

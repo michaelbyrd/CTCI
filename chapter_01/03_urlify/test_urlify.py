@@ -8,3 +8,10 @@ class TestUrlify:
 
     def test_no_spaces(self):
         assert urlify("abc", 3) == "abc"
+
+
+# Complexity:
+#
+#     | version | time  | space |
+#     |---------|-------|-------|
+#     | urlify  | O(n)  | O(n)  |

@@ -15,3 +15,11 @@ class TestCheckPermutation:
 
     def test_not_permutation_with_duplicates(self, fn):
         assert fn("aab", "bab") == False
+
+
+# Complexity:
+#
+#     | version                | time       | space |
+#     |------------------------|------------|-------|
+#     | check_permutation      | O(n log n) | O(n)  |
+#     | check_permutation_dict | O(n)       | O(n)  |

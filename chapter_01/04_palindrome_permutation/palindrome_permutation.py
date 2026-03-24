@@ -17,6 +17,7 @@ def clean_string(string):
     return string.replace(" ", "").lower()
 
 
+# Time: O(n), Space: O(k) — k = unique characters
 def palindrome_permutation(string):
     counts = {}
     for char in clean_string(string):
@@ -26,14 +27,13 @@ def palindrome_permutation(string):
     return sum(v % 2 != 0 for v in counts.values()) <= 1
 
 
-# same solution just with a helper function to create the
+# Time: O(n), Space: O(k) — Counter is C-optimized, faster at scale
 def palindrome_permutation_counter(string):
     counts = Counter(clean_string(string))
     return sum(v % 2 != 0 for v in counts.values()) <= 1
 
 
-# uses a set and has improved performace
-# - solves in a single pass rather than building the dict of counts then iterating again
+# Time: O(n), Space: O(k) — single pass, no second iteration over counts
 def palindrome_permutation_set(string):
     seen = set()
     for char in clean_string(string):

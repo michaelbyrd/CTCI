@@ -11,6 +11,7 @@
 #   Output: "Mr%20John%20Smith"
 
 
+# Time: O(n), Space: O(n) — single pass, builds new string
 def urlify(string, length):
     url = ''
     for char in string[:length]:
