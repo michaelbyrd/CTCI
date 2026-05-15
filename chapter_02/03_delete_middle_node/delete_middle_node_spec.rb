@@ -40,7 +40,14 @@ RSpec.shared_examples 'delete_middle_node behavior' do
   end
 
   context 'medium input' do
-    it 'deletes middle node of length-50 list' do
+    it 'deletes near-start node of length-50 list' do
+      vals = (0...50).to_a
+      head = from_list(vals)
+      fn.call(get_node(head, 1))
+      expect(to_list(head)).to eq(vals[0...1] + vals[2..])
+    end
+
+    it 'deletes center node of length-50 list' do
       vals = (0...50).to_a
       head = from_list(vals)
       fn.call(get_node(head, 25))
@@ -56,11 +63,25 @@ RSpec.shared_examples 'delete_middle_node behavior' do
   end
 
   context 'long input', :slow do
-    it 'deletes middle node of length-1000 list' do
+    it 'deletes near-start node of length-1000 list' do
+      vals = (0...1000).to_a
+      head = from_list(vals)
+      fn.call(get_node(head, 1))
+      expect(to_list(head)).to eq(vals[0...1] + vals[2..])
+    end
+
+    it 'deletes center node of length-1000 list' do
       vals = (0...1000).to_a
       head = from_list(vals)
       fn.call(get_node(head, 500))
       expect(to_list(head)).to eq(vals[0...500] + vals[501..])
+    end
+
+    it 'deletes near-end node of length-1000 list' do
+      vals = (0...1000).to_a
+      head = from_list(vals)
+      fn.call(get_node(head, 998))
+      expect(to_list(head)).to eq(vals[0...998] + vals[999..])
     end
   end
 end
