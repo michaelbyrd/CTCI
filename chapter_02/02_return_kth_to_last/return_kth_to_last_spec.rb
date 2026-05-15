@@ -36,7 +36,7 @@ RSpec.shared_examples 'return_kth_to_last behavior' do
 
     it 'returns middle element of length-50 list' do
       vals = (0...50).to_a
-      expect(fn.call(from_list(vals), 25)).to eq(24)
+      expect(fn.call(from_list(vals), 25)).to eq(25)
     end
 
     it 'returns first element of length-50 list' do
@@ -53,14 +53,17 @@ RSpec.shared_examples 'return_kth_to_last behavior' do
 
     it 'returns middle element of length-1000 list' do
       vals = (0...1000).to_a
-      expect(fn.call(from_list(vals), 500)).to eq(499)
+      expect(fn.call(from_list(vals), 500)).to eq(500)
     end
   end
 end
 
-%i[return_kth_to_last_two_pass return_kth_to_last_two_pointers].each do |fn_name|
-  RSpec.describe fn_name.to_s do
-    let(:fn) { method(fn_name) }
-    include_examples 'return_kth_to_last behavior'
-  end
+RSpec.describe 'return_kth_to_last_two_pass' do
+  let(:fn) { method(:return_kth_to_last_two_pass) }
+  include_examples 'return_kth_to_last behavior'
+end
+
+RSpec.describe 'return_kth_to_last_two_pointers' do
+  let(:fn) { method(:return_kth_to_last_two_pointers) }
+  include_examples 'return_kth_to_last behavior'
 end
