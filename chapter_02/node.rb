@@ -21,3 +21,12 @@ def from_list(values)
   end
   head
 end
+
+def list_length(node)
+  count = 0
+  while node
+    count += 1
+    node = node.next
+  end
+  count
+end

@@ -23,7 +23,7 @@ def remove_dups(head)
       seen.add(current.val)
       prev = current
     end
-     current = current.next
+    current = current.next
   end
 
   return head
@@ -32,4 +32,18 @@ end
 
 # Time: O(n²), Space: O(1)
 def remove_dups_no_buffer(head)
+  walker = head
+  while walker do
+    runner = walker
+    while runner.next do
+      if(walker.val == runner.next.val)
+        runner.next = runner.next.next
+      else
+        runner = runner.next
+      end
+    end
+    walker = walker.next
+  end
+
+  return head
 end
